@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: vlados
+      changes:
+        - createTable:
+            tableName: team
+            columns:
+              - column:
+                  name: team_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: team_name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: team_players
+                  type: varchar(50)
+                  constraints:
+                    unique: false
+                    nullable: true
+              - column:
+                  name: created
+                  type: timestamp without time zone
+                  defaultValue: now()
+                  constraints:
+                    nullabale: false

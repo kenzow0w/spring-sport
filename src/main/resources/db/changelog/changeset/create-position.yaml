@@ -1,5 +1,4 @@
 databaseChangeLog:
-  - logicalFilePath: luquibase/changelog-position.yaml
   - changeSet:
       id: 1
       author: vlados
@@ -10,7 +9,6 @@ databaseChangeLog:
               - column:
                   name: position_id
                   type: UUID
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false

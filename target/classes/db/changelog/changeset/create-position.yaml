@@ -1,21 +1,19 @@
 databaseChangeLog:
-  - logicalFilePath: luquibase/changelog-roles.yaml
   - changeSet:
       id: 1
       author: vlados
       changes:
         - createTable:
-            tableName: role
+            tableName: position
             columns:
               - column:
-                  name: role_id
+                  name: position_id
                   type: UUID
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role_name
+                  name: position_name
                   type: varchar(50)
                   constraints:
                     unique: true
