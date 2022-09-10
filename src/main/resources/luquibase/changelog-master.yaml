@@ -1,0 +1,2 @@
+databaseChangeLog:
+  - logicalFilePath: luquibase/changelog-master.yaml

@@ -1,0 +1,13 @@
+spring:
+  main.allow-bean-definition-overriding: true
+  jpa:
+    database: postgres
+    generate-ddl: true
+    hibernate.ddl-auto: update
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 17337
+
