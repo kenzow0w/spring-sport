@@ -10,16 +10,16 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "role")
+@Table(name = "role", schema = "public")
 public class RoleEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "role_id", updatable = false, nullable = false)
-    UUID id;
+    private UUID id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_name")
-    String name;
+    private String name;
 }

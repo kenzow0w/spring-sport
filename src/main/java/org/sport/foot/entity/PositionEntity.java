@@ -11,15 +11,16 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
+@Table(name = "position", schema = "public")
 public class PositionEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "position_id", updatable = false, nullable = false)
-    UUID id;
+    private UUID id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "position_name")
-    String name;
+    private String name;
 }

@@ -25,23 +25,29 @@ databaseChangeLog:
                     unique: false
                     nullable: false
               - column:
-                  name: user_team
-                  type: varchar(100)
+                  name: team_id
+                  type: UUID
                   constraints:
                     unique: false
                     nullable: false
+                    foreignKeyName: fk_team_id
+                    references: team(team_id)
               - column:
-                  name: user_role
-                  type: varchar(50)
+                  name: role_id
+                  type: UUID
                   constraints:
                     unique: false
                     nullable: false
+                    foreignKeyName: fk_role_id
+                    references: role(role_id)
               - column:
-                  name: user_position
-                  type: varchar(50)
+                  name: position_id
+                  type: UUID
                   constraints:
                     unique: false
                     nullable: true
+                    foreignKeyName: fk_position_id
+                    references: position(position_id)
               - column:
                   name: user_raiting
                   type: integer

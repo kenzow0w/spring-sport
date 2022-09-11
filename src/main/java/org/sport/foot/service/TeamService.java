@@ -17,7 +17,7 @@ public class TeamService {
     TeamEntityRepository teamEntityRepository;
 
 
-    @Qualifier //TODO читать
+//    @Qualifier //TODO читать
     @Autowired
     public void setTeamEntityRepository(TeamEntityRepository teamEntityRepository) {
         this.teamEntityRepository = teamEntityRepository;

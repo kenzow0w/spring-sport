@@ -3,7 +3,6 @@ package org.sport.foot.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.UUIDGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -11,30 +10,34 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name = "user", schema = "public")
 public class UserEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "user_id", updatable = false, nullable = false)
-    UUID id;
+    private UUID id;
 
     @Column(name = "user_email")
-    String email;
+    private String email;
 
     @Column(name = "user_name")
-    String name;
-    
-    @Column(name = "user_team")
-    TeamEntity team;
+    private String name;
 
-    @Column(name = "user_role")
-    String role;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private TeamEntity team;
 
-    @Column(name = "user_position")
-    String position;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
+
+    @ManyToOne
+    @JoinColumn(name = "position_id")
+    private PositionEntity position;
 
     @Column(name = "user_raiting")
-    Integer raiting;
+    private Integer raiting;
 
 }

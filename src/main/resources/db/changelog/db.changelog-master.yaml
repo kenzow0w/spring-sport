@@ -1,9 +1,9 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changeset/create-users.yaml
-  - include:
       file: db/changelog/changeset/create-teams.yaml
   - include:
       file: db/changelog/changeset/create-position.yaml
   - include:
       file: db/changelog/changeset/create-roles.yaml
+  - include:
+      file: db/changelog/changeset/create-users.yaml

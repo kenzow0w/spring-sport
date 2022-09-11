@@ -1,5 +1,6 @@
 package org.sport.foot.controller;
 
+import org.apache.catalina.User;
 import org.sport.foot.entity.UserEntity;
 import org.sport.foot.exceptions.UserAlreadyExistException;
 import org.sport.foot.exceptions.UserNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -30,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getUsers() {
+    public ResponseEntity<List<UserEntity>> getUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 

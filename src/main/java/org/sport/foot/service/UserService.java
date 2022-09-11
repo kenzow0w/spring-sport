@@ -6,6 +6,7 @@ import org.sport.foot.exceptions.UserNotFoundException;
 import org.sport.foot.repository_aka_dao.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +26,12 @@ public class UserService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<UserEntity> getAllUsers() {
         return userEntityRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public UserEntity getOneUser(UUID id) {
         return userEntityRepository.findById(id).get();
     }

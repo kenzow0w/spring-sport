@@ -36,13 +36,13 @@ public class RoleController {
         return ResponseEntity.ok(roleService.save(roleEntity));
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteOneRole(@PathVariable UUID id) {
         return ResponseEntity.ok(roleService.deleteOneTeam(id));
     }
 
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public ResponseEntity updateRole(@PathVariable UUID id, @RequestBody RoleEntity roleEntity) {
         return ResponseEntity.ok(roleService.updateRole(id, roleEntity));
     }

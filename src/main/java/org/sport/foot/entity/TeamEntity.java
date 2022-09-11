@@ -13,21 +13,23 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name = "team", schema = "public")
 public class TeamEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "team_id", updatable = false, nullable = false)
-    UUID id;
+    private UUID id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_name")
-    String name;
+    private String name;
 
 
-    @Column(name = "team_players")
-    List<UserEntityDto> players;
+    @OneToMany(mappedBy = "team")
+//    @JoinColumn(name = "team_id") не нужен!!! ПАША, НЕ НУЖЕН!!!
+    private List<UserEntity> players;
 
 
 }

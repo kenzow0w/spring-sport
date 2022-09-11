@@ -42,7 +42,7 @@ public class PositionController {
         return ResponseEntity.ok(positionService.deleteOnePosition(id));
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public ResponseEntity updatePosition(@PathVariable UUID id, @RequestBody PositionEntity positionEntity) {
         return ResponseEntity.ok(positionService.updatePosition(id, positionEntity));
     }
