@@ -23,12 +23,12 @@ public class PositionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAllPositions() {
+    public ResponseEntity getAll() {
         return ResponseEntity.ok(positionService.getAllPositions());
     }
 
     @GetMapping
-    public ResponseEntity getOnePosition(@RequestParam UUID id) {
+    public ResponseEntity getOne(@RequestParam UUID id) {
         return ResponseEntity.ok(positionService.getOnePosition(id));
     }
 
@@ -38,12 +38,12 @@ public class PositionController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteOnePosition(@PathVariable UUID id) {
+    public ResponseEntity deleteOne(@PathVariable UUID id) {
         return ResponseEntity.ok(positionService.deleteOnePosition(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePosition(@PathVariable UUID id, @RequestBody PositionEntity positionEntity) {
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody PositionEntity positionEntity) {
         return ResponseEntity.ok(positionService.updatePosition(id, positionEntity));
     }
 

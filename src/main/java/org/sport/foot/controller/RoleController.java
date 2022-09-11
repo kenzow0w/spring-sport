@@ -21,12 +21,12 @@ public class RoleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getRoles() {
+    public ResponseEntity getAll() {
         return ResponseEntity.ok(roleService.getAllRoles());
     }
 
     @GetMapping
-    public ResponseEntity getOneRole(@RequestParam UUID id) {
+    public ResponseEntity getOne(@RequestParam UUID id) {
 
         return ResponseEntity.ok(roleService.getOneRole(id));
     }
@@ -37,13 +37,13 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOneRole(@PathVariable UUID id) {
+    public ResponseEntity deleteOne(@PathVariable UUID id) {
         return ResponseEntity.ok(roleService.deleteOneTeam(id));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity updateRole(@PathVariable UUID id, @RequestBody RoleEntity roleEntity) {
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody RoleEntity roleEntity) {
         return ResponseEntity.ok(roleService.updateRole(id, roleEntity));
     }
 

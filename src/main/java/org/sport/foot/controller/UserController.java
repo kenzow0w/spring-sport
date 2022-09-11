@@ -32,23 +32,23 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserEntity>> getUsers() {
+    public ResponseEntity<List<UserEntity>> getAll() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping
-    public ResponseEntity getOneUser(@RequestParam UUID id) {
+    public ResponseEntity getOne(@RequestParam UUID id) {
         return ResponseEntity.ok(userService.getOneUser(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable UUID id) {
+    public ResponseEntity deleteOne(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.deleteOneUser(id));
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateUser(@PathVariable UUID id, @RequestBody UserEntity userEntity) {
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody UserEntity userEntity) {
         return ResponseEntity.ok(userService.updateUser(id, userEntity));
     }
 

@@ -24,31 +24,27 @@ public class TeamService {
     }
 
 
-    @NonNull         //TODO читать и читать KeyCloak и Spring Boot
+    @NonNull         //TODO читать и читать KeyCloak и Spring Boot, АОП
     public TeamEntity save(TeamEntity team) {
         return teamEntityRepository.save(team);
     }
 
-    public TeamEntity getOneTeam(UUID id) {
+    public TeamEntity getOne(UUID id) {
         return teamEntityRepository.findById(id).get();
     }
 
-    public List<TeamEntity> getAllTeams() {
+    public List<TeamEntity> getAll() {
         return teamEntityRepository.findAll();
     }
 
-    public UUID deleteTeam(UUID id) {
+    public UUID delete(UUID id) {
         teamEntityRepository.deleteById(id);
         return id;
     }
 
-    public TeamEntity updateTeam(UUID id, TeamEntity newEntity) {
+    public TeamEntity update(UUID id, TeamEntity newEntity) {
         TeamEntity updateEntity = teamEntityRepository.findById(id).get();
         updateEntity.setName(newEntity.getName());
-        updateEntity.setPlayers(newEntity.getPlayers());
         return updateEntity;
     }
-
-
-    //TODO delete добавить, put корректировка
 }

@@ -1,8 +1,6 @@
 package org.sport.foot.controller;
 
 import org.sport.foot.entity.TeamEntity;
-import org.sport.foot.entity.UserEntity;
-import org.sport.foot.exceptions.TeamNotFoundException;
 import org.sport.foot.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,23 +29,23 @@ public class TeamController {
     }
 
     @GetMapping
-    public ResponseEntity<TeamEntity> getOneTeam(@RequestBody UUID id) {
-        return ResponseEntity.ok(teamService.getOneTeam(id));
+    public ResponseEntity<TeamEntity> getOne(@RequestBody UUID id) {
+        return ResponseEntity.ok(teamService.getOne(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAllTeams() {
-        return ResponseEntity.ok(teamService.getAllTeams());
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok(teamService.getAll());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOneTeam(@PathVariable UUID id) {
-        return ResponseEntity.ok(teamService.deleteTeam(id));
+    public ResponseEntity deleteOne(@PathVariable UUID id) {
+        return ResponseEntity.ok(teamService.delete(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateTeam(@PathVariable UUID id, @RequestBody TeamEntity teamEntity) {
-        return ResponseEntity.ok(teamService.updateTeam(id, teamEntity));
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody TeamEntity teamEntity) {
+        return ResponseEntity.ok(teamService.update(id, teamEntity));
     }
 
 
