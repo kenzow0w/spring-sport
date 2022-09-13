@@ -16,6 +16,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot-starter.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.15</version>
@@ -71,6 +76,7 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.15.0</version>
         </dependency>
+
 
     </dependencies>
 

@@ -1,6 +1,7 @@
 package org.sport.foot.service;
 
 
+import org.sport.foot.dto.RoleEntityDto;
 import org.sport.foot.entity.RoleEntity;
 import org.sport.foot.repository_aka_dao.RoleEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,39 +9,52 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleService {
 
     RoleEntityRepository roleEntityRepository;
 
+    MappingUstils mappingUstils;
+
     @Autowired
     public void setRoleEntityRepository(RoleEntityRepository roleEntityRepository) {
         this.roleEntityRepository = roleEntityRepository;
     }
 
-    public List<RoleEntity> getAllRoles() {
-        return roleEntityRepository.findAll();
+    @Autowired
+    public void setMappingUstils(MappingUstils mappingUstils) {
+        this.mappingUstils = mappingUstils;
     }
 
-    public RoleEntity getOneRole(UUID id) {
-        return roleEntityRepository.findById(id).get();
+    public List<RoleEntityDto> findAll() {
+        return roleEntityRepository.findAll().stream()
+                .map(mappingUstils::mapToRoleDto)
+                .collect(Collectors.toList());
     }
 
-    public UUID deleteOneTeam(UUID id) {
+    public RoleEntityDto findById(UUID id) {
+        return mappingUstils.mapToRoleDto(roleEntityRepository.findById(id).orElse(new RoleEntity()));
+    }
+
+    public void deleteById(UUID id) {
         roleEntityRepository.deleteById(id);
-        return id;
     }
 
     public RoleEntity save(RoleEntity roleEntity) {
         return roleEntityRepository.save(roleEntity);
     }
 
-    public RoleEntity updateRole(UUID id, RoleEntity newEntity) {
+    public RoleEntityDto update(UUID id, RoleEntity newEntity) {
         RoleEntity updateRole = roleEntityRepository.findById(id).get();
 
         updateRole.setName(newEntity.getName());
 
-        return updateRole;
+        return mappingUstils.mapToRoleDto(updateRole);
+    }
+
+    public void deleteAll() {
+        roleEntityRepository.deleteAll();
     }
 }

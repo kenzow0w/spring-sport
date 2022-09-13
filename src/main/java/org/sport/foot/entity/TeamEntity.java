@@ -3,7 +3,6 @@ package org.sport.foot.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.sport.foot.dto.UserEntityDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,7 +28,7 @@ public class TeamEntity {
 
     @OneToMany(mappedBy = "team")
 //    @JoinColumn(name = "team_id") не нужен!!! ПАША, НЕ НУЖЕН!!!
-    private List<UserEntity> players;
+    private List<PlayerEntity> players;
 
 
 }

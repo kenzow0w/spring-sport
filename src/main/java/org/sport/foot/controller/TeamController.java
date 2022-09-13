@@ -1,5 +1,6 @@
 package org.sport.foot.controller;
 
+import org.sport.foot.dto.TeamEntityDto;
 import org.sport.foot.entity.TeamEntity;
 import org.sport.foot.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -29,23 +31,30 @@ public class TeamController {
     }
 
     @GetMapping
-    public ResponseEntity<TeamEntity> getOne(@RequestBody UUID id) {
-        return ResponseEntity.ok(teamService.getOne(id));
+    public ResponseEntity<TeamEntityDto> findById(@RequestBody UUID id) {
+        return ResponseEntity.ok(teamService.findById(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAll() {
-        return ResponseEntity.ok(teamService.getAll());
+    public ResponseEntity<List<TeamEntityDto>> findAll() {
+        return ResponseEntity.ok(teamService.findAll());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOne(@PathVariable UUID id) {
-        return ResponseEntity.ok(teamService.delete(id));
+    public ResponseEntity<String> deleteById(@PathVariable UUID id) {
+        teamService.delete(id);
+        return ResponseEntity.ok("Команда успешно удалена");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable UUID id, @RequestBody TeamEntity teamEntity) {
+    public ResponseEntity<TeamEntityDto> update(@PathVariable UUID id, @RequestBody TeamEntity teamEntity) {
         return ResponseEntity.ok(teamService.update(id, teamEntity));
+    }
+
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<String> deleteAll() {
+        teamService.deleteAll();
+        return ResponseEntity.ok("Список команд очищен");
     }
 
 

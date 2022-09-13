@@ -2,6 +2,7 @@ package org.sport.foot.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,8 +11,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 @Table(name = "user", schema = "public")
-public class UserEntity {
+public class PlayerEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")

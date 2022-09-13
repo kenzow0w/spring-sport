@@ -1,14 +1,18 @@
 package org.sport.foot.controller;
 
 
+import org.sport.foot.dto.PositionEntityDto;
 import org.sport.foot.entity.PositionEntity;
+import org.sport.foot.service.MappingUstils;
 import org.sport.foot.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/position")
@@ -23,28 +27,36 @@ public class PositionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAll() {
-        return ResponseEntity.ok(positionService.getAllPositions());
+    public ResponseEntity<List<PositionEntityDto>> findAll() {
+        return ResponseEntity.ok(positionService.findAll());
     }
 
     @GetMapping
-    public ResponseEntity getOne(@RequestParam UUID id) {
-        return ResponseEntity.ok(positionService.getOnePosition(id));
+    public ResponseEntity<PositionEntityDto> findById(@RequestParam UUID id) {
+        return ResponseEntity.ok(positionService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody PositionEntity positionEntity) {
+    public ResponseEntity<PositionEntity> save(@RequestBody PositionEntity positionEntity) {
         return ResponseEntity.ok(positionService.save(positionEntity));
     }
 
     @DeleteMapping
-    public ResponseEntity deleteOne(@PathVariable UUID id) {
-        return ResponseEntity.ok(positionService.deleteOnePosition(id));
+    public ResponseEntity<String> deleteById(@PathVariable UUID id) {
+        positionService.deleteById(id);
+        return ResponseEntity.ok(String.format("Позиция с id=%s успешно удалена", id));
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable UUID id, @RequestBody PositionEntity positionEntity) {
-        return ResponseEntity.ok(positionService.updatePosition(id, positionEntity));
+    public ResponseEntity<PositionEntityDto> update(@PathVariable UUID id, @RequestBody PositionEntity positionEntity) {
+        return ResponseEntity.ok(positionService.update(id, positionEntity));
+    }
+
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<String> deleteAll() {
+        positionService.deleteAll();
+        return ResponseEntity.ok("Список позиций очищен");
     }
 
 

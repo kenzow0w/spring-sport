@@ -1,6 +1,7 @@
 package org.sport.foot.service;
 
 
+import org.sport.foot.dto.TeamEntityDto;
 import org.sport.foot.entity.TeamEntity;
 import org.sport.foot.repository_aka_dao.TeamEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamService {
 
     TeamEntityRepository teamEntityRepository;
 
+    MappingUstils mappingUstils;
 
-//    @Qualifier //TODO читать
+    //    @Qualifier //TODO читать
     @Autowired
     public void setTeamEntityRepository(TeamEntityRepository teamEntityRepository) {
         this.teamEntityRepository = teamEntityRepository;
+    }
+
+    @Autowired
+    public void setMappingUstils(MappingUstils mappingUstils) {
+        this.mappingUstils = mappingUstils;
     }
 
 
@@ -29,22 +37,27 @@ public class TeamService {
         return teamEntityRepository.save(team);
     }
 
-    public TeamEntity getOne(UUID id) {
-        return teamEntityRepository.findById(id).get();
+    public TeamEntityDto findById(UUID id) {
+        return mappingUstils.mapToTeamDto(teamEntityRepository.findById(id).orElse(new TeamEntity()));
     }
 
-    public List<TeamEntity> getAll() {
-        return teamEntityRepository.findAll();
+    public List<TeamEntityDto> findAll() {
+        return teamEntityRepository.findAll().stream()
+                .map(mappingUstils::mapToTeamDto)
+                .collect(Collectors.toList());
     }
 
-    public UUID delete(UUID id) {
+    public void delete(UUID id) {
         teamEntityRepository.deleteById(id);
-        return id;
     }
 
-    public TeamEntity update(UUID id, TeamEntity newEntity) {
+    public TeamEntityDto update(UUID id, TeamEntity newEntity) {
         TeamEntity updateEntity = teamEntityRepository.findById(id).get();
         updateEntity.setName(newEntity.getName());
-        return updateEntity;
+        return mappingUstils.mapToTeamDto(updateEntity);
+    }
+
+    public void deleteAll() {
+        teamEntityRepository.deleteAll();
     }
 }
