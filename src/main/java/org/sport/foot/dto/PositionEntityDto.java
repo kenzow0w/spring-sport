@@ -8,8 +8,8 @@ import java.util.UUID;
 @Data
 public class PositionEntityDto {
 
-    UUID id;
-    String name;
+    private UUID id;
+    private String name;
 
 
 }

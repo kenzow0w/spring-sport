@@ -18,7 +18,7 @@ public class PlayerEntityDto {
     private TeamEntity team;
     private RoleEntity role;
     private PositionEntity position;
-    private int raiting;
+    private Integer raiting;
 
 
 }

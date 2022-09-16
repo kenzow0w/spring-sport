@@ -2,6 +2,8 @@ package org.sport.foot.controller;
 
 import org.sport.foot.dto.PlayerEntityDto;
 import org.sport.foot.entity.PlayerEntity;
+import org.sport.foot.exceptions.EntityAlreadyExistException;
+import org.sport.foot.exceptions.EntityNotFoundException;
 import org.sport.foot.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +15,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/players", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PlayerController {
 
 
@@ -25,7 +27,10 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody PlayerEntity user) {
+    public ResponseEntity<String> save(@RequestBody PlayerEntity user) throws EntityAlreadyExistException{
+        if(playerService.findByEmail(user.getEmail()).getEmail().equals(user.getEmail())){
+            throw new EntityAlreadyExistException("Игрок с таким email уже существует");
+        }
         playerService.save(user);
         return ResponseEntity.ok("Игрок успешно сохранен");
     }
@@ -36,8 +41,13 @@ public class PlayerController {
     }
 
     @GetMapping
-    public ResponseEntity<PlayerEntityDto> findById(@RequestParam UUID id) {
-        return ResponseEntity.ok(playerService.findById(id));
+    public ResponseEntity<PlayerEntityDto> findById(@RequestParam UUID id) throws EntityNotFoundException {
+        if (playerService.findById(id).getId() == null) {
+            throw new EntityNotFoundException("Такого игрока не существует");
+        } else {
+            return ResponseEntity.ok(playerService.findById(id));
+        }
+
     }
 
     @DeleteMapping("/{id}")

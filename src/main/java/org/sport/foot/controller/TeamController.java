@@ -2,8 +2,11 @@ package org.sport.foot.controller;
 
 import org.sport.foot.dto.TeamEntityDto;
 import org.sport.foot.entity.TeamEntity;
+import org.sport.foot.exceptions.EntityNotFoundException;
+import org.sport.foot.service.Response;
 import org.sport.foot.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,10 @@ public class TeamController {
     }
 
     @GetMapping
-    public ResponseEntity<TeamEntityDto> findById(@RequestBody UUID id) {
+    public ResponseEntity<TeamEntityDto> findById(@RequestParam UUID id) throws EntityNotFoundException {
+        if (teamService.findById(id).getId() == null) {
+            throw new EntityNotFoundException("Такой команды не существует");
+        }
         return ResponseEntity.ok(teamService.findById(id));
     }
 
@@ -56,6 +62,5 @@ public class TeamController {
         teamService.deleteAll();
         return ResponseEntity.ok("Список команд очищен");
     }
-
 
 }

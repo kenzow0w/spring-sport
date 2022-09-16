@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface PositionEntityRepository extends JpaRepository <PositionEntity, UUID> {
 
+    public PositionEntity findByName(String name);
 }

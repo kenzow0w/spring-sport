@@ -3,9 +3,9 @@ package org.sport.foot.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.FORBIDDEN)
-public class TeamAlreadyExistException extends Exception{
-    public TeamAlreadyExistException(String message){
+
+public class EntityNotFoundException extends Exception{
+    public EntityNotFoundException(String message){
         super (message);
     }
 }

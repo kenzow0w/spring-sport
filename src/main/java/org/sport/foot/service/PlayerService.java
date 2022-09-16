@@ -4,7 +4,6 @@ import org.sport.foot.dto.PlayerEntityDto;
 import org.sport.foot.entity.PlayerEntity;
 import org.sport.foot.repository_aka_dao.PlayerEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +66,10 @@ public class PlayerService {
         playerEntityRepository.deleteAll();
     }
 
+    public PlayerEntityDto findByEmail(String email) {
+        return mappingUstils.mapToPlayerDto(playerEntityRepository.findByEmail(email));
+
+    }
 }
 
 

@@ -57,4 +57,11 @@ public class RoleService {
     public void deleteAll() {
         roleEntityRepository.deleteAll();
     }
+
+    public RoleEntityDto findByName(String name) {
+        if(roleEntityRepository.findByName(name)==null){
+            return null;
+        }
+        return mappingUstils.mapToRoleDto(roleEntityRepository.findByName(name));
+    }
 }
