@@ -7,11 +7,8 @@ import org.sport.foot.entity.TeamEntity;
 
 import java.util.UUID;
 
-
 @Data
 public class PlayerEntityDto {
-
-
     private UUID id;
     private String email;
     private String name;
@@ -19,6 +16,4 @@ public class PlayerEntityDto {
     private RoleEntity role;
     private PositionEntity position;
     private Integer raiting;
-
-
 }

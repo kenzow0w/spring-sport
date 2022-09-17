@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -15,8 +17,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
 
     private PlayerEntityRepository playerEntityRepository;
-
-    private MappingUstils mappingUstils;
+    private MappingUtils mappingUtils;
 
     @Autowired
     public void setUserEntityRepository(PlayerEntityRepository playerEntityRepository) {
@@ -24,51 +25,39 @@ public class PlayerService {
     }
 
     @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
+    public void setMappingUtils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
-    public PlayerEntityDto save(PlayerEntity user) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.save(user));
-
+    public void save(PlayerEntityDto user) {
+        if(findByEmail(user.getEmail()) != null){
+            throw new EntityExistsException("Игрок с таким email уже существует");
+        }
+        PlayerEntity playerEntity = mappingUtils.mapToPlayerEntity(user);
+        playerEntityRepository.save(playerEntity);
     }
 
     @Transactional(readOnly = true)
     public List<PlayerEntityDto> findAll() {
         return playerEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToPlayerDto)
+                .map(mappingUtils::mapToPlayerDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public PlayerEntityDto findById(UUID id) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.findById(id).orElse(new PlayerEntity()));
+        return mappingUtils.mapToPlayerDto(playerEntityRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
     }
 
+    @Transactional
     public void deleteById(UUID id) {
         playerEntityRepository.deleteById(id);
     }
 
-    public PlayerEntityDto update(UUID id, PlayerEntity newEntity) {
-        PlayerEntity updateEntity = playerEntityRepository.findById(id).get();
-
-        updateEntity.setEmail(newEntity.getEmail())
-                .setName(newEntity.getName())
-                .setTeam(newEntity.getTeam())
-                .setRole(newEntity.getRole())
-                .setPosition(newEntity.getPosition())
-                .setRaiting(newEntity.getRaiting());
-
-        return mappingUstils.mapToPlayerDto(updateEntity);
-    }
-
-    public void deleteAll() {
-        playerEntityRepository.deleteAll();
-    }
-
+    @Transactional
     public PlayerEntityDto findByEmail(String email) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.findByEmail(email));
-
+        return mappingUtils.mapToPlayerDto(playerEntityRepository.findByEmail(email));
     }
 }
 

@@ -1,15 +1,18 @@
 package org.sport.foot.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
+@Entity
 @Table(name = "role", schema = "public")
 public class RoleEntity {
 
@@ -17,9 +20,9 @@ public class RoleEntity {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "role_id", updatable = false, nullable = false)
-    private UUID id;
+    UUID id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_name")
-    private String name;
+    String name;
 }

@@ -5,8 +5,6 @@ import org.sport.foot.dto.TeamEntityDto;
 import org.sport.foot.entity.TeamEntity;
 import org.sport.foot.repository_aka_dao.TeamEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,32 +16,29 @@ public class TeamService {
 
     TeamEntityRepository teamEntityRepository;
 
-    MappingUstils mappingUstils;
+    MappingUtils mappingUtils;
 
-    //    @Qualifier //TODO читать
     @Autowired
     public void setTeamEntityRepository(TeamEntityRepository teamEntityRepository) {
         this.teamEntityRepository = teamEntityRepository;
     }
 
     @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
+    public void setMappingUstils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
-
-    @NonNull         //TODO читать и читать KeyCloak и Spring Boot, АОП
-    public TeamEntity save(TeamEntity team) {
-        return teamEntityRepository.save(team);
+    public void save(TeamEntity team) {
+        teamEntityRepository.save(team);
     }
 
     public TeamEntityDto findById(UUID id) {
-        return mappingUstils.mapToTeamDto(teamEntityRepository.findById(id).orElse(new TeamEntity()));
+        return mappingUtils.mapToTeamDto(teamEntityRepository.findById(id).orElse(new TeamEntity()));
     }
 
     public List<TeamEntityDto> findAll() {
         return teamEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToTeamDto)
+                .map(mappingUtils::mapToTeamDto)
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +49,7 @@ public class TeamService {
     public TeamEntityDto update(UUID id, TeamEntity newEntity) {
         TeamEntity updateEntity = teamEntityRepository.findById(id).get();
         updateEntity.setName(newEntity.getName());
-        return mappingUstils.mapToTeamDto(updateEntity);
+        return mappingUtils.mapToTeamDto(updateEntity);
     }
 
     public void deleteAll() {

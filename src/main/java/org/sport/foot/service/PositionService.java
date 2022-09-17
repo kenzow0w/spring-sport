@@ -3,7 +3,6 @@ package org.sport.foot.service;
 
 import org.sport.foot.dto.PositionEntityDto;
 import org.sport.foot.entity.PositionEntity;
-import org.sport.foot.exceptions.EntityNotFoundException;
 import org.sport.foot.repository_aka_dao.PositionEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,11 @@ public class PositionService {
 
     PositionEntityRepository positionEntityRepository;
 
-    MappingUstils mappingUstils;
+    MappingUtils mappingUtils;
 
     @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
+    public void setMappingUstils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
     @Autowired
@@ -34,13 +33,13 @@ public class PositionService {
     @Transactional(readOnly = true)
     public List<PositionEntityDto> findAll() {
         return positionEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToPositionDto)
+                .map(mappingUtils::mapToPositionDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public PositionEntityDto findById(UUID id) {
-        return mappingUstils.mapToPositionDto(positionEntityRepository.findById(id).orElse(new PositionEntity()));
+        return mappingUtils.mapToPositionDto(positionEntityRepository.findById(id).orElse(new PositionEntity()));
     }
 
     public PositionEntity save(PositionEntity positionEntity) {
@@ -55,7 +54,7 @@ public class PositionService {
         PositionEntity updatePosition = positionEntityRepository.findById(id).get();
         updatePosition.setName(newEntity.getName());
 
-        return mappingUstils.mapToPositionDto(updatePosition);
+        return mappingUtils.mapToPositionDto(updatePosition);
 
     }
 
@@ -67,6 +66,6 @@ public class PositionService {
         if (positionEntityRepository.findByName(name) == null){
             return null;
         }
-            return mappingUstils.mapToPositionDto(positionEntityRepository.findByName(name));
+            return mappingUtils.mapToPositionDto(positionEntityRepository.findByName(name));
     }
 }

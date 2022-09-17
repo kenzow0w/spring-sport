@@ -1,0 +1,3 @@
+0( hibernate projection
+1( hibernate repository @Query hql, sql
+2( @Qualifier

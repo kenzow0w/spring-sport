@@ -1,6 +1,5 @@
 package org.sport.foot.service;
 
-
 import org.sport.foot.dto.PlayerEntityDto;
 import org.sport.foot.dto.PositionEntityDto;
 import org.sport.foot.dto.RoleEntityDto;
@@ -9,20 +8,15 @@ import org.sport.foot.entity.PlayerEntity;
 import org.sport.foot.entity.PositionEntity;
 import org.sport.foot.entity.RoleEntity;
 import org.sport.foot.entity.TeamEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MappingUstils {
+public class MappingUtils {
 
     public PlayerEntityDto mapToPlayerDto(PlayerEntity entity) {
         PlayerEntityDto dto = new PlayerEntityDto();
-        dto.setId(entity.getId());
-        dto.setEmail(entity.getEmail());
-        dto.setName(entity.getName());
-        dto.setTeam(entity.getTeam());
-        dto.setRole(entity.getRole());
-        dto.setPosition(entity.getPosition());
-        dto.setRaiting(entity.getRaiting());
+        BeanUtils.copyProperties(dto, entity);
         return dto;
     }
 
@@ -35,7 +29,6 @@ public class MappingUstils {
         entity.setRole(dto.getRole());
         entity.setPosition(dto.getPosition());
         entity.setRaiting(dto.getRaiting());
-
         return entity;
     }
 

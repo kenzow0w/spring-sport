@@ -16,7 +16,7 @@ public class RoleService {
 
     RoleEntityRepository roleEntityRepository;
 
-    MappingUstils mappingUstils;
+    MappingUtils mappingUtils;
 
     @Autowired
     public void setRoleEntityRepository(RoleEntityRepository roleEntityRepository) {
@@ -24,18 +24,18 @@ public class RoleService {
     }
 
     @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
+    public void setMappingUstils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
     public List<RoleEntityDto> findAll() {
         return roleEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToRoleDto)
+                .map(mappingUtils::mapToRoleDto)
                 .collect(Collectors.toList());
     }
 
     public RoleEntityDto findById(UUID id) {
-        return mappingUstils.mapToRoleDto(roleEntityRepository.findById(id).orElse(new RoleEntity()));
+        return mappingUtils.mapToRoleDto(roleEntityRepository.findById(id).orElse(new RoleEntity()));
     }
 
     public void deleteById(UUID id) {
@@ -51,7 +51,7 @@ public class RoleService {
 
         updateRole.setName(newEntity.getName());
 
-        return mappingUstils.mapToRoleDto(updateRole);
+        return mappingUtils.mapToRoleDto(updateRole);
     }
 
     public void deleteAll() {
@@ -62,6 +62,6 @@ public class RoleService {
         if(roleEntityRepository.findByName(name)==null){
             return null;
         }
-        return mappingUstils.mapToRoleDto(roleEntityRepository.findByName(name));
+        return mappingUtils.mapToRoleDto(roleEntityRepository.findByName(name));
     }
 }
