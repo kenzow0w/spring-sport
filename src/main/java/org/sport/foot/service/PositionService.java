@@ -3,12 +3,13 @@ package org.sport.foot.service;
 
 import org.sport.foot.dto.PositionEntityDto;
 import org.sport.foot.entity.PositionEntity;
-import org.sport.foot.exceptions.EntityNotFoundException;
 import org.sport.foot.repository_aka_dao.PositionEntityRepository;
+import org.sport.foot.utils.MappingUstils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,10 +52,12 @@ public class PositionService {
         positionEntityRepository.deleteById(id);
     }
 
-    public PositionEntityDto update(UUID id, PositionEntity newEntity) {
-        PositionEntity updatePosition = positionEntityRepository.findById(id).get();
-        updatePosition.setName(newEntity.getName());
+    //todo поменять обработку nullPointException
 
+    public PositionEntityDto update(UUID id, PositionEntity newEntity) {
+
+        PositionEntity updatePosition = positionEntityRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        updatePosition.setName(newEntity.getName());
         return mappingUstils.mapToPositionDto(updatePosition);
 
     }

@@ -13,5 +13,4 @@ public class TeamEntityDto {
     private String name;
     private List<PlayerEntityDto> players;
 
-
 }

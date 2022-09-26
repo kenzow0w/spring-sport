@@ -1,4 +1,4 @@
-package org.sport.foot.service;
+package org.sport.foot.utils;
 
 
 import org.sport.foot.dto.PlayerEntityDto;
@@ -10,6 +10,8 @@ import org.sport.foot.entity.PositionEntity;
 import org.sport.foot.entity.RoleEntity;
 import org.sport.foot.entity.TeamEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class MappingUstils {
@@ -43,7 +45,9 @@ public class MappingUstils {
         TeamEntityDto dto = new TeamEntityDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        //todo добавить setPlayers (разные типы данных, как решить?)
+        dto.setPlayers(entity.getPlayers().stream()
+                .map(this::mapToPlayerDto)
+                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -51,8 +55,9 @@ public class MappingUstils {
         TeamEntity entity = new TeamEntity();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
-        //todo добавить setPlayers (разные типы данных, как решить?)
-
+        entity.setPlayers(dto.getPlayers().stream()
+                .map(this::mapToPlayerEntity)
+                .collect(Collectors.toList()));
         return entity;
     }
 

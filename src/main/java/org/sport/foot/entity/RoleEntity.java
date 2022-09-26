@@ -22,4 +22,5 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_name")
     private String name;
+
 }

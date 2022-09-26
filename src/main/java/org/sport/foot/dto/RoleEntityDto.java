@@ -10,4 +10,5 @@ public class RoleEntityDto implements Serializable {
 
     private UUID id;
     private String name;
+
 }

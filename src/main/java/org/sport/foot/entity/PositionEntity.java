@@ -23,4 +23,5 @@ public class PositionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "position_name")
     private String name;
+
 }
