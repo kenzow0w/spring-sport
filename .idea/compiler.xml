@@ -3,19 +3,6 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-<<<<<<< HEAD
     </annotationProcessing>
-=======
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="spring-sport" />
-      </profile>
-    </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="spring-sport" target="8" />
-    </bytecodeTargetLevel>
->>>>>>> d396b80e7000a9d4fce32d02dc2c3b8ee4703517
   </component>
 </project>
