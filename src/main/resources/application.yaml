@@ -4,12 +4,13 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate.ddl-auto: none
-
+  sql:
+    init:
+      platform: postgres
   datasource:
-    platform: postgres
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: 17337
+    password: postgres
 
   liquibase:
     enabled: true

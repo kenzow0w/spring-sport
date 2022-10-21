@@ -10,5 +10,8 @@
         <module name="spring-sport" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="spring-sport" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
