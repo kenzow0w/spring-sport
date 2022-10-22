@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class MappingUstils {
+public class MappingUtils {
 
     public PlayerEntityDto mapToPlayerDto(PlayerEntity entity) {
         PlayerEntityDto dto = new PlayerEntityDto();
@@ -45,9 +45,6 @@ public class MappingUstils {
         TeamEntityDto dto = new TeamEntityDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setPlayers(entity.getPlayers().stream()
-                .map(this::mapToPlayerDto)
-                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -55,9 +52,6 @@ public class MappingUstils {
         TeamEntity entity = new TeamEntity();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
-        entity.setPlayers(dto.getPlayers().stream()
-                .map(this::mapToPlayerEntity)
-                .collect(Collectors.toList()));
         return entity;
     }
 

@@ -3,7 +3,7 @@ package org.sport.foot.service;
 import org.sport.foot.dto.PlayerEntityDto;
 import org.sport.foot.entity.PlayerEntity;
 import org.sport.foot.dao.PlayerEntityRepository;
-import org.sport.foot.utils.MappingUstils;
+import org.sport.foot.utils.MappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class PlayerService {
 
     private PlayerEntityRepository playerEntityRepository;
 
-    private MappingUstils mappingUstils;
+    private MappingUtils mappingUtils;
 
     @Autowired
     public void setUserEntityRepository(PlayerEntityRepository playerEntityRepository) {
@@ -25,25 +25,25 @@ public class PlayerService {
     }
 
     @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
+    public void setMappingUstils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
     public PlayerEntityDto save(PlayerEntity user) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.save(user));
+        return mappingUtils.mapToPlayerDto(playerEntityRepository.save(user));
 
     }
 
     @Transactional(readOnly = true)
     public List<PlayerEntityDto> findAll() {
         return playerEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToPlayerDto)
+                .map(mappingUtils::mapToPlayerDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public PlayerEntityDto findById(UUID id) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.findById(id).orElse(new PlayerEntity()));
+        return mappingUtils.mapToPlayerDto(playerEntityRepository.findById(id).orElse(new PlayerEntity()));
     }
 
     public void deleteById(UUID id) {
@@ -60,7 +60,7 @@ public class PlayerService {
                 .setPosition(newEntity.getPosition())
                 .setRaiting(newEntity.getRaiting());
 
-        return mappingUstils.mapToPlayerDto(updateEntity);
+        return mappingUtils.mapToPlayerDto(updateEntity);
     }
 
     public void deleteAll() {
@@ -68,7 +68,7 @@ public class PlayerService {
     }
 
     public PlayerEntityDto findByEmail(String email) {
-        return mappingUstils.mapToPlayerDto(playerEntityRepository.findByEmail(email));
+        return mappingUtils.mapToPlayerDto(playerEntityRepository.findByEmail(email));
 
     }
 }

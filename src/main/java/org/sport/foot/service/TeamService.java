@@ -1,63 +1,53 @@
 package org.sport.foot.service;
 
-
-import org.sport.foot.dto.TeamEntityDto;
-import org.sport.foot.entity.TeamEntity;
+import lombok.AllArgsConstructor;
 import org.sport.foot.dao.TeamEntityRepository;
-import org.sport.foot.utils.MappingUstils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
+import org.sport.foot.dto.TeamEntityDto;
+import org.sport.foot.entity.PositionEntity;
+import org.sport.foot.entity.TeamEntity;
+import org.sport.foot.utils.MappingUtils;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
+@Transactional
 public class TeamService {
 
     TeamEntityRepository teamEntityRepository;
+    MappingUtils mappingUtils;
 
-    MappingUstils mappingUstils;
-
-    //    @Qualifier //TODO читать
-    @Autowired
-    public void setTeamEntityRepository(TeamEntityRepository teamEntityRepository) {
-        this.teamEntityRepository = teamEntityRepository;
-    }
-
-    @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
-    }
-
-
-    @NonNull         //TODO читать и читать KeyCloak и Spring Boot, АОП
-    public TeamEntity save(TeamEntity team) {
-        return teamEntityRepository.save(team);
-    }
-
-    public TeamEntityDto findById(UUID id) {
-        return mappingUstils.mapToTeamDto(teamEntityRepository.findById(id).orElse(new TeamEntity()));
-    }
-
-    public List<TeamEntityDto> findAll() {
+    public List<TeamEntityDto> get() {
         return teamEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToTeamDto)
+                .map(mappingUtils::mapToTeamDto)
                 .collect(Collectors.toList());
+    }
+
+    public void save(TeamEntityDto dto) {
+        Specification<TeamEntity> specification = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (dto.getId() != null) {
+                predicates.add(cb.notEqual(root.get("id"), dto.getId()));
+            }
+            predicates.add(cb.equal(root.get("name"), dto.getName()));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        if(teamEntityRepository.findOne(specification).isPresent()) {
+            throw new EntityExistsException("Такая сущность уже есть");
+        }
+        TeamEntity entity = mappingUtils.mapToTeamEntity(dto);
+        teamEntityRepository.save(entity);
     }
 
     public void delete(UUID id) {
         teamEntityRepository.deleteById(id);
-    }
-
-    public TeamEntityDto update(UUID id, TeamEntity newEntity) {
-        TeamEntity updateEntity = teamEntityRepository.findById(id).get();
-        updateEntity.setName(newEntity.getName());
-        return mappingUstils.mapToTeamDto(updateEntity);
-    }
-
-    public void deleteAll() {
-        teamEntityRepository.deleteAll();
     }
 }
