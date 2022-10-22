@@ -10,11 +10,14 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * Игрок
+ */
 @Getter
 @Setter
-@Entity
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 @Table(name = "user", schema = "public")
 public class PlayerEntity {
 

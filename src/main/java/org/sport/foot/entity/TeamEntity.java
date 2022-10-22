@@ -1,16 +1,18 @@
 package org.sport.foot.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "team", schema = "public")
 public class TeamEntity {
@@ -19,16 +21,13 @@ public class TeamEntity {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "team_id", updatable = false, nullable = false)
-    private UUID id;
+    UUID id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_name")
-    private String name;
-
+    String name;
 
     @OneToMany(mappedBy = "team")
-//    @JoinColumn(name = "team_id") не нужен!!! ПАША, НЕ НУЖЕН!!!
-    private List<PlayerEntity> players;
-
+    List<PlayerEntity> players;
 
 }

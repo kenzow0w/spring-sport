@@ -3,7 +3,7 @@ package org.sport.foot.service;
 
 import org.sport.foot.dto.RoleEntityDto;
 import org.sport.foot.entity.RoleEntity;
-import org.sport.foot.repository_aka_dao.RoleEntityRepository;
+import org.sport.foot.dao.RoleEntityRepository;
 import org.sport.foot.utils.MappingUstils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
