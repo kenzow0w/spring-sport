@@ -3,9 +3,6 @@ package org.sport.foot.dto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.sport.foot.entity.PositionEntity;
-import org.sport.foot.entity.RoleEntity;
-import org.sport.foot.entity.TeamEntity;
 
 import java.util.UUID;
 
@@ -14,11 +11,16 @@ import java.util.UUID;
 public class PlayerEntityDto {
 
     UUID id;
+    String firstName;
+    String lastName;
+    String secondName;
     String email;
-    String name;
-    TeamEntity team;
-    RoleEntity role;
-    PositionEntity position;
-    Integer raiting;
+    UUID teamId;
+    String teamName;
+    UUID roleId;
+    String roleName;
+    UUID positionId;
+    String positionName;
+    Integer rating;
 
 }

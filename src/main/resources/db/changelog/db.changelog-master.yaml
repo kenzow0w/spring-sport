@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-roles.yaml
   - include:
       file: db/changelog/changeset/create-users.yaml
+  - include:
+      file: db/changelog/changeset/create-players.yaml

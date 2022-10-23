@@ -18,34 +18,38 @@ import java.util.UUID;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "player", schema = "public")
 public class PlayerEntity {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "user_id", updatable = false, nullable = false)
+    @Column(name = "player_id", updatable = false, nullable = false)
     UUID id;
-
-    @Column(name = "user_email")
+    /** Имя */
+    @Column(name = "player_first_name")
+    String firstName;
+    /** Фамилия */
+    @Column(name = "player_last_name")
+    String lastName;
+    /** Отчество */
+    @Column(name = "player_second_name")
+    String secondName;
+    /** Эл. почта */
+    @Column(name = "player_email")
     String email;
-
-    @Column(name = "user_name")
-    String name;
-
+    /** Рейтинг */
+    @Column(name = "player_rating")
+    Integer rating;
+    /** Команда */
     @ManyToOne
     @JoinColumn(name = "team_id")
     TeamEntity team;
-
+    /** Роль игрока в команде */
     @ManyToOne
     @JoinColumn(name = "role_id")
     RoleEntity role;
-
+    /** Позиция игрока */
     @ManyToOne
     @JoinColumn(name = "position_id")
     PositionEntity position;
-
-    @Column(name = "user_raiting")
-    Integer raiting;
-
 }

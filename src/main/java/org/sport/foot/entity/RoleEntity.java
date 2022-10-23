@@ -9,6 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * Роль игрока в команде
+ */
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)

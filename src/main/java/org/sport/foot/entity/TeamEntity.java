@@ -7,9 +7,11 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
+/**
+ * Команда
+ */
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -26,8 +28,5 @@ public class TeamEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_name")
     String name;
-
-    @OneToMany(mappedBy = "team")
-    List<PlayerEntity> players;
 
 }
