@@ -2,7 +2,11 @@ package org.sport.foot.controller;
 
 import lombok.AllArgsConstructor;
 import org.sport.foot.dto.TeamEntityDto;
+import org.sport.foot.dto.TeamRequest;
 import org.sport.foot.service.TeamService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +22,8 @@ public class TeamController {
     private TeamService teamService;
 
     @GetMapping
-    public ResponseEntity<List<TeamEntityDto>> get() {
-        return ResponseEntity.ok(teamService.get());
+    public ResponseEntity<Page<TeamEntityDto>> get(TeamRequest request) {
+        return ResponseEntity.ok(teamService.get(request));
     }
 
     @PostMapping

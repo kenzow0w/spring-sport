@@ -3,9 +3,11 @@ package org.sport.foot.service;
 import lombok.AllArgsConstructor;
 import org.sport.foot.dao.TeamEntityRepository;
 import org.sport.foot.dto.TeamEntityDto;
-import org.sport.foot.entity.PositionEntity;
+import org.sport.foot.dto.TeamRequest;
 import org.sport.foot.entity.TeamEntity;
 import org.sport.foot.utils.MappingUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +27,13 @@ public class TeamService {
     TeamEntityRepository teamEntityRepository;
     MappingUtils mappingUtils;
 
-    public List<TeamEntityDto> get() {
-        return teamEntityRepository.findAll().stream()
+    public Page<TeamEntityDto> get(TeamRequest pageable) {
+        Page<TeamEntity> page = teamEntityRepository.findAll(pageable);
+        return new PageImpl<>(page.get()
                 .map(mappingUtils::mapToTeamDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()),
+                pageable, page.getTotalElements()
+        );
     }
 
     public void save(TeamEntityDto dto) {
@@ -40,7 +45,7 @@ public class TeamService {
             predicates.add(cb.equal(root.get("name"), dto.getName()));
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        if(teamEntityRepository.findOne(specification).isPresent()) {
+        if (teamEntityRepository.findOne(specification).isPresent()) {
             throw new EntityExistsException("Такая сущность уже есть");
         }
         TeamEntity entity = mappingUtils.mapToTeamEntity(dto);
