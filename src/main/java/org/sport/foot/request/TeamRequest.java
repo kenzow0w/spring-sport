@@ -1,4 +1,4 @@
-package org.sport.foot.dto;
+package org.sport.foot.request;
 
 import lombok.AccessLevel;
 import lombok.Getter;

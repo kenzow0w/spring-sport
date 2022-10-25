@@ -2,11 +2,12 @@ package org.sport.foot.controller;
 
 import lombok.AllArgsConstructor;
 import org.sport.foot.dto.PlayerEntityDto;
+import org.sport.foot.request.PlayerRequest;
 import org.sport.foot.service.PlayerService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,8 +19,8 @@ public class PlayerController {
     private PlayerService playerService;
 
     @GetMapping
-    public ResponseEntity<List<PlayerEntityDto>> get() {
-        return ResponseEntity.ok(playerService.get());
+    public ResponseEntity<Page<PlayerEntityDto>> get(PlayerRequest request) {
+        return ResponseEntity.ok(playerService.get(request));
     }
 
     @PostMapping

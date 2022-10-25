@@ -2,15 +2,12 @@ package org.sport.foot.controller;
 
 import lombok.AllArgsConstructor;
 import org.sport.foot.dto.TeamEntityDto;
-import org.sport.foot.dto.TeamRequest;
+import org.sport.foot.request.TeamRequest;
 import org.sport.foot.service.TeamService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

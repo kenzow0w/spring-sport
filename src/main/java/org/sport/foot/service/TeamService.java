@@ -3,7 +3,7 @@ package org.sport.foot.service;
 import lombok.AllArgsConstructor;
 import org.sport.foot.dao.TeamEntityRepository;
 import org.sport.foot.dto.TeamEntityDto;
-import org.sport.foot.dto.TeamRequest;
+import org.sport.foot.request.TeamRequest;
 import org.sport.foot.entity.TeamEntity;
 import org.sport.foot.utils.MappingUtils;
 import org.springframework.data.domain.Page;
@@ -27,6 +27,7 @@ public class TeamService {
     TeamEntityRepository teamEntityRepository;
     MappingUtils mappingUtils;
 
+    //Todo разделить на пагинированный и нет ответ
     public Page<TeamEntityDto> get(TeamRequest pageable) {
         Page<TeamEntity> page = teamEntityRepository.findAll(pageable);
         return new PageImpl<>(page.get()
