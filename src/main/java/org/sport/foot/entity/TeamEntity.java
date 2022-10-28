@@ -4,10 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.GenericGenerator;
+import org.sport.foot.entity.base.NameEntity;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * Команда
@@ -17,16 +16,9 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "team", schema = "public")
-public class TeamEntity {
-
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "team_id", updatable = false, nullable = false)
-    UUID id;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_name")
-    String name;
-
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "team_id")),
+        @AttributeOverride(name = "name", column = @Column(name = "team_name"))
+})
+public class TeamEntity extends NameEntity {
 }

@@ -1,6 +1,5 @@
 package org.sport.foot.utils;
 
-
 import lombok.AllArgsConstructor;
 import org.sport.foot.dao.PositionEntityRepository;
 import org.sport.foot.dao.RoleEntityRepository;

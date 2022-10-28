@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.GenericGenerator;
+import org.sport.foot.entity.base.IdEntity;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * Игрок
@@ -19,36 +18,48 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "player", schema = "public")
-public class PlayerEntity {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "player_id", updatable = false, nullable = false)
-    UUID id;
-    /** Имя */
+@AttributeOverride(name = "id", column = @Column(name = "player_id"))
+public class PlayerEntity extends IdEntity {
+    /**
+     * Имя
+     */
     @Column(name = "player_first_name")
     String firstName;
-    /** Фамилия */
+    /**
+     * Фамилия
+     */
     @Column(name = "player_last_name")
     String lastName;
-    /** Отчество */
+    /**
+     * Отчество
+     */
     @Column(name = "player_second_name")
     String secondName;
-    /** Эл. почта */
+    /**
+     * Эл. почта
+     */
     @Column(name = "player_email")
     String email;
-    /** Рейтинг */
+    /**
+     * Рейтинг
+     */
     @Column(name = "player_rating")
     Integer rating;
-    /** Команда */
+    /**
+     * Команда
+     */
     @ManyToOne
     @JoinColumn(name = "team_id")
     TeamEntity team;
-    /** Роль игрока в команде */
+    /**
+     * Роль игрока в команде
+     */
     @ManyToOne
     @JoinColumn(name = "role_id")
     RoleEntity role;
-    /** Позиция игрока */
+    /**
+     * Позиция игрока
+     */
     @ManyToOne
     @JoinColumn(name = "position_id")
     PositionEntity position;

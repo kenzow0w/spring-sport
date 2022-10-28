@@ -68,7 +68,6 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.15.0</version>
         </dependency>
-        <!--        Подключить сваггер, кейЛок, АКТУАТОР, ГРАФАНА, ПРОМЕТЕУС, Тесты   -->
     </dependencies>
 
 </project>

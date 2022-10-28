@@ -1,16 +1,17 @@
 package org.sport.foot.dto;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.sport.foot.dto.base.IdEntityDto;
 
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PlayerEntityDto {
-
-    UUID id;
+public class PlayerEntityDto extends IdEntityDto {
     String firstName;
     String lastName;
     String secondName;
@@ -22,5 +23,4 @@ public class PlayerEntityDto {
     UUID positionId;
     String positionName;
     Integer rating;
-
 }
