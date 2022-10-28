@@ -1,6 +1,13 @@
 package org.sport.foot.service;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.platform.commons.util.StringUtils;
 import org.sport.foot.dao.PlayerEntityRepository;
 import org.sport.foot.dto.PlayerEntityDto;
@@ -16,8 +23,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +37,11 @@ public class PlayerService {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private PlayerEntityRepository playerEntityRepository;
     private MappingUtils mappingUtils;
+
+    public List<PlayerEntityDto> get() {
+        return playerEntityRepository.findAll()
+                .stream().map(mappingUtils::mapToPlayerDto).collect(Collectors.toList());
+    }
 
     public Page<PlayerEntityDto> get(PlayerRequest request) {
         String selectSql = "select     pl.player_id          as id, " +
@@ -100,6 +116,57 @@ public class PlayerService {
 
     public void delete(UUID id) {
         playerEntityRepository.deleteById(id);
+    }
+
+    @SneakyThrows
+    public void report(HttpServletResponse response) {
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=players_" + LocalDateTime.now() + ".xlsx");
+        List<PlayerEntityDto> playerEntityDtos = get();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Players");
+        //Header
+        Row headerRow = sheet.createRow(0);
+        CellStyle headerStyle = workbook.createCellStyle();
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
+        headerStyle.setFont(font);
+        createCell(headerRow, 0, "ID", headerStyle);
+        createCell(headerRow, 1, "Фамилия", headerStyle);
+        createCell(headerRow, 2, "Имя", headerStyle);
+        createCell(headerRow, 3, "Отчество", headerStyle);
+        createCell(headerRow, 4, "Email", headerStyle);
+        createCell(headerRow, 5, "Рейтинг", headerStyle);
+        createCell(headerRow, 6, "Команда", headerStyle);
+        createCell(headerRow, 7, "Роль", headerStyle);
+        createCell(headerRow, 8, "Позиция", headerStyle);
+        //Body
+        int rowCount = 1;
+        CellStyle style = workbook.createCellStyle();
+        for (PlayerEntityDto playerEntityDto : playerEntityDtos) {
+            Row row = sheet.createRow(rowCount++);
+            createCell(row, 0, playerEntityDto.getId().toString(), style);
+            createCell(row, 1, playerEntityDto.getLastName(), style);
+            createCell(row, 2, playerEntityDto.getFirstName(), style);
+            createCell(row, 3, playerEntityDto.getSecondName(), style);
+            createCell(row, 4, playerEntityDto.getEmail(), style);
+            createCell(row, 5, playerEntityDto.getRating().toString(), style);
+            createCell(row, 6, playerEntityDto.getTeamName(), style);
+            createCell(row, 7, playerEntityDto.getRoleName(), style);
+            createCell(row, 8, playerEntityDto.getPositionName(), style);
+        }
+        sheet.autoSizeColumn(8);
+        //File
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
+
+    private void createCell(Row row, int columnCount, Object value, CellStyle style) {
+        Cell cell = row.createCell(columnCount);
+        cell.setCellValue(value != null ? value.toString() : "");
+        cell.setCellStyle(style);
     }
 }
 
