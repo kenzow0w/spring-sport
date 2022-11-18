@@ -1,14 +1,12 @@
 package org.sport.foot.dto;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.sport.foot.dto.base.NameEntityDto;
 
-import java.io.Serializable;
-import java.util.UUID;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleEntityDto implements Serializable {
-
-    private UUID id;
-    private String name;
-
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class RoleEntityDto extends NameEntityDto {
 }

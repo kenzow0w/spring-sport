@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pablo
+      changes:
+        - createTable:
+            tableName: player
+            columns:
+              - column:
+                  name: player_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: player_first_name
+                  type: varchar(255)
+              - column:
+                  name: player_last_name
+                  type: varchar(255)
+              - column:
+                  name: player_second_name
+                  type: varchar(255)
+              - column:
+                  name: player_email
+                  type: varchar
+                  constraints:
+                    unique: true
+                    nullable: true
+              - column:
+                  name: player_rating
+                  type: integer
+              - column:
+                  name: team_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_team_id
+                    references: team(team_id)
+              - column:
+                  name: role_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_role_id
+                    references: role(role_id)
+              - column:
+                  name: position_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_position_id
+                    references: position(position_id)

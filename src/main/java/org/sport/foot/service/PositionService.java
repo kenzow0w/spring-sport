@@ -1,75 +1,53 @@
 package org.sport.foot.service;
 
-
+import lombok.AllArgsConstructor;
+import org.sport.foot.dao.PositionEntityRepository;
 import org.sport.foot.dto.PositionEntityDto;
 import org.sport.foot.entity.PositionEntity;
-import org.sport.foot.repository_aka_dao.PositionEntityRepository;
-import org.sport.foot.utils.MappingUstils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.sport.foot.utils.MappingUtils;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityExistsException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.criteria.Predicate;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
+@Transactional
 public class PositionService {
 
-
     PositionEntityRepository positionEntityRepository;
-
-    MappingUstils mappingUstils;
-
-    @Autowired
-    public void setMappingUstils(MappingUstils mappingUstils) {
-        this.mappingUstils = mappingUstils;
-    }
-
-    @Autowired
-    public void setPositionEntityRepository(PositionEntityRepository positionEntityRepository) {
-        this.positionEntityRepository = positionEntityRepository;
-    }
+    MappingUtils mappingUtils;
 
     @Transactional(readOnly = true)
-    public List<PositionEntityDto> findAll() {
+    public List<PositionEntityDto> get() {
         return positionEntityRepository.findAll().stream()
-                .map(mappingUstils::mapToPositionDto)
+                .map(mappingUtils::mapToPositionDto)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public PositionEntityDto findById(UUID id) {
-        return mappingUstils.mapToPositionDto(positionEntityRepository.findById(id).orElse(new PositionEntity()));
-    }
-
-    public PositionEntity save(PositionEntity positionEntity) {
-        return positionEntityRepository.save(positionEntity);
-    }
-
-    public void deleteById(UUID id) {
-        positionEntityRepository.deleteById(id);
-    }
-
-    //todo поменять обработку nullPointException
-
-    public PositionEntityDto update(UUID id, PositionEntity newEntity) {
-
-        PositionEntity updatePosition = positionEntityRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        updatePosition.setName(newEntity.getName());
-        return mappingUstils.mapToPositionDto(updatePosition);
-
-    }
-
-    public void deleteAll() {
-        positionEntityRepository.deleteAll();
-    }
-
-    public PositionEntityDto findByName(String name) {
-        if (positionEntityRepository.findByName(name) == null){
-            return null;
+    public void save(PositionEntityDto dto) {
+        Specification<PositionEntity> specification = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (dto.getId() != null) {
+                predicates.add(cb.notEqual(root.get("id"), dto.getId()));
+            }
+            predicates.add(cb.equal(root.get("name"), dto.getName()));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        if(positionEntityRepository.findOne(specification).isPresent()) {
+            throw new EntityExistsException("Такая сущность уже есть");
         }
-            return mappingUstils.mapToPositionDto(positionEntityRepository.findByName(name));
+        PositionEntity entity = mappingUtils.mapToPositionEntity(dto);
+        positionEntityRepository.save(entity);
+    }
+
+    public void delete(UUID id) {
+        positionEntityRepository.deleteById(id);
     }
 }

@@ -1,14 +1,12 @@
 package org.sport.foot.dto;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.sport.foot.dto.base.NameEntityDto;
 
-import lombok.Data;
-
-import java.util.UUID;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class PositionEntityDto {
-
-    private UUID id;
-    private String name;
-
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class PositionEntityDto extends NameEntityDto {
 }
